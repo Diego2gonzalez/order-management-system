@@ -16,8 +16,10 @@ It has different **environment profiles (development, testing, production)** and
 * [🌐 Environment Profiles (Sprint 2)](#-environment-profiles-sprint-2)
 * [⚡ CRUD Explanation](#-crud-explanation)
 * [🧩 H2 Database](#-h2-database)
+* [🖼️ Profile Screenshots](#-profile-screenshots)
 * [🚀 What Was Implemented](#-what-was-implemented)
 * [🏁 Sprint 2 Delivery](#-sprint-2-delivery)
+* [✍️ Credits](#-credits)
 
 ---
 
@@ -156,19 +158,6 @@ Spring Boot will show the active profile in console:
 The following profiles are active: prod
 ```
 
-### 🧩 Example configuration (production)
-
-```properties
-# ===============================
-# SPRING BOOT - PRODUCTION PROFILE
-# ===============================
-spring.application.name=order-management
-spring.datasource.url=jdbc:mysql://localhost:3306/order_management
-spring.datasource.username=root
-spring.datasource.password=1234
-spring.jpa.hibernate.ddl-auto=update
-```
-
 ---
 
 ## ⚡ CRUD Explanation
@@ -180,7 +169,9 @@ spring.jpa.hibernate.ddl-auto=update
 | Update    | PUT         | `/items/{id}`             | Update a record        |
 | Delete    | DELETE      | `/items/{id}`             | Delete a record by ID  |
 
-> CRUD operations can be tested in the **web interface (Thymeleaf)** or using **Postman**.
+### ⚡ CRUD Testing
+
+All endpoints have been tested locally using Postman and the browser. Swagger documentation will be added in **Sprint 3**.
 
 ---
 
@@ -199,6 +190,22 @@ spring.jpa.hibernate.ddl-auto=update
 3. Enter the details from `application-dev.properties` (e.g., `jdbc:h2:mem:testdb`).
 
 > ⚠️ When the server stops, data is deleted automatically. This makes testing fast and clean.
+
+---
+
+## 🖼️ Profile Screenshots
+
+### Development (H2)
+
+![Development Profile](Screenshots/BDD-dev.png)
+
+### Testing (H2)
+
+![Testing Profile](Screenshots/BDD-test.png)
+
+### Production (MySQL)
+
+![Production Profile](Screenshots/BDD-prod.png)
 
 ---
 
