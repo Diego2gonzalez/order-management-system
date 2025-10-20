@@ -1,182 +1,230 @@
-# 🧾 Order Management System – Spring Boot Project
+# 🧩 Order Management System (CRUD with Spring Boot, H2 and MySQL)
 
-A complete CRUD web application built with **Spring Boot**, **Thymeleaf**, and **H2 Database**.  
-Developed as part of the **Digital NAO Java Challenge**, this project demonstrates the use of Spring Boot architecture, controllers, services, repositories, and database integration.
+This project is a **CRUD system (Create, Read, Update, Delete)** built with **Spring Boot**. It helps manage records in a relational database.
+It has different **environment profiles (development, testing, production)** and is **ready to scale and deploy**.
 
 ---
 
 ## 📚 Table of Contents
-- [🚀 Project Overview](#-project-overview)
-- [⚙️ Technologies Used](#️-technologies-used)
-- [📦 Dependencies](#-dependencies)
-- [💾 Database (H2)](#-database-h2)
-- [🧠 How It Works](#-how-it-works)
-- [🧩 CRUD Functionalities](#-crud-functionalities)
-- [📋 How to Clone and Run](#-how-to-clone-and-run)
-- [📁 Folder Structure](#-folder-structure)
-- [✅ What Was Implemented](#-what-was-implemented)
-- [🧱 Future Improvements](#-future-improvements)
-- [👨‍💻 Author](#-author)
+
+* [🧠 General Description](#-general-description)
+* [⚙️ Technologies Used](#️-technologies-used)
+* [📦 Main Dependencies](#-main-dependencies)
+* [🧱 Project Structure](#-project-structure)
+* [🖥️ How to Clone](#️-how-to-clone)
+* [▶️ How to Run](#️-how-to-run)
+* [🌐 Environment Profiles (Sprint 2)](#-environment-profiles-sprint-2)
+* [⚡ CRUD Explanation](#-crud-explanation)
+* [🧩 H2 Database](#-h2-database)
+* [🚀 What Was Implemented](#-what-was-implemented)
+* [🏁 Sprint 2 Delivery](#-sprint-2-delivery)
 
 ---
 
-## 🚀 Project Overview
+## 🧠 General Description
 
-This is a **Spring Boot-based Order Management System**.  
-It allows users to **create, read, update, and delete (CRUD)** order records stored in an H2 database.  
-The project simulates a real-world backend connected to a frontend built with **Thymeleaf templates**.
+This project is a web app built with **Spring Boot** that uses CRUD operations on a database.
+In **Sprint 1**, the CRUD structure and H2 database connection were created. In **Sprint 2**, environment profiles (**dev**, **test**, **prod**) were added.
+
+> 💡 The system helps manage records (like orders, products, or users) with a web interface and keeps data organized in different environments.
 
 ---
 
 ## ⚙️ Technologies Used
 
-| Technology | Description |
-|-------------|-------------|
-| **Java 17** | Programming language |
-| **Spring Boot 3** | Framework for rapid application development |
-| **Spring Web** | To handle REST controllers and routing |
-| **Spring Data JPA** | To manage database access |
-| **H2 Database** | Lightweight in-memory database for testing |
-| **Thymeleaf** | Template engine for frontend rendering |
-| **Maven** | Dependency management and build tool |
-| **Git & GitHub** | Version control and repository hosting |
+| Type                  | Technology      |
+| --------------------- | --------------- |
+| Main language         | Java 17         |
+| Framework             | Spring Boot 3.x |
+| In-memory database    | H2              |
+| Persistent database   | MySQL           |
+| Front-end templates   | Thymeleaf       |
+| Dependency management | Maven           |
+| Development IDE       | IntelliJ IDEA   |
+| Version control       | Git / GitHub    |
 
 ---
 
-## 📦 Dependencies
+## 📦 Main Dependencies
 
-Main dependencies from the `pom.xml` file:
-
-| Dependency | Use |
-|-------------|-----|
-| `spring-boot-starter-web` | Web and REST controllers |
-| `spring-boot-starter-data-jpa` | ORM and repository pattern |
-| `spring-boot-starter-thymeleaf` | Frontend templates |
-| `com.h2database:h2` | In-memory database |
-| `spring-boot-starter-test` | Testing utilities |
+```xml
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-thymeleaf</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-data-jpa</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>com.h2database</groupId>
+        <artifactId>h2</artifactId>
+        <scope>runtime</scope>
+    </dependency>
+    <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-j</artifactId>
+        <scope>runtime</scope>
+    </dependency>
+</dependencies>
+```
 
 ---
 
-## 💾 Database (H2)
+## 🧱 Project Structure
 
-**H2** is an **in-memory database** that stores data temporarily while the application is running.  
-It is ideal for development and testing because it does not require installation or configuration.
+```
+src/
+ ├── main/
+ │   ├── java/com/example/demo/
+ │   │   ├── controller/
+ │   │   │   └── ItemController.java
+ │   │   ├── model/
+ │   │   │   └── Item.java
+ │   │   ├── repository/
+ │   │   │   └── ItemRepository.java
+ │   │   └── service/
+ │   │       └── ItemService.java
+ │   └── resources/
+ │       ├── application.properties
+ │       ├── application-dev.properties
+ │       ├── application-test.properties
+ │       └── application-prod.properties
+ └── test/
+     └── ItemControllerTest.java
+```
 
-You can access the H2 console by visiting:
+---
 
-http://localhost:8080/h2-console
+## 🖥️ How to Clone
 
-pgsql
-Copy code
+```bash
+git clone https://github.com/tuusuario/nombre-del-proyecto.git
+cd nombre-del-proyecto
+```
 
-**Configuration Example (`application.properties`):**
+---
+
+## ▶️ How to Run
+
+### 🔧 Run in development mode (default)
+
+```bash
+mvn spring-boot:run
+```
+
+### 🚀 Run in production mode
+
+```bash
+mvn spring-boot:run -Dspring-boot.run.profiles=prod
+```
+
+---
+
+## 🌐 Environment Profiles (Sprint 2)
+
+The project has **three environment profiles**:
+
+| Profile | File                          | Database | Use               |
+| ------- | ----------------------------- | -------- | ----------------- |
+| dev     | `application-dev.properties`  | H2       | Local development |
+| test    | `application-test.properties` | H2       | Automated tests   |
+| prod    | `application-prod.properties` | MySQL    | Real production   |
+
+### 🔁 How to change the profile
+
+Edit this line in `application.properties`:
 
 ```properties
-spring.datasource.url=jdbc:h2:mem:testdb
-spring.datasource.driverClassName=org.h2.Driver
-spring.datasource.username=sa
-spring.datasource.password=
-spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
-spring.h2.console.enabled=true
-🧠 How It Works
-The user interacts with an HTML page built using Thymeleaf.
+spring.profiles.active=prod
+```
 
-The form sends data to the Controller using HTTP methods.
+Or run from console:
 
-The Controller delegates actions to the Service, which handles logic.
+```bash
+mvn spring-boot:run -Dspring-boot.run.profiles=test
+```
 
-The Service communicates with the Repository, which interacts with the H2 database.
+Spring Boot will show the active profile in console:
 
-The results (data or messages) are returned to the frontend.
+```
+The following profiles are active: prod
+```
 
-🧩 CRUD Functionalities
-Operation	HTTP Method	Description	Example Endpoint
-Create	POST	Adds a new order to the database	/orders/add
-Read	GET	Retrieves all existing orders	/orders
-Update	PUT	Updates an existing order’s data	/orders/update/{id}
-Delete	DELETE	Removes an order from the database	/orders/delete/{id}
+### 🧩 Example configuration (production)
 
-🧱 Create
-Implemented with a POST request.
+```properties
+# ===============================
+# SPRING BOOT - PRODUCTION PROFILE
+# ===============================
+spring.application.name=order-management
+spring.datasource.url=jdbc:mysql://localhost:3306/order_management
+spring.datasource.username=root
+spring.datasource.password=1234
+spring.jpa.hibernate.ddl-auto=update
+```
 
-Uses a form or JSON body to send order data.
+---
 
-Data is persisted in H2 through the repository layer.
+## ⚡ CRUD Explanation
 
-🔍 Read
-Implemented with a GET request.
+| Operation | HTTP Method | Endpoint                  | Description            |
+| --------- | ----------- | ------------------------- | ---------------------- |
+| Create    | POST        | `/items`                  | Add a new record       |
+| Read      | GET         | `/items` or `/items/{id}` | Show all or one record |
+| Update    | PUT         | `/items/{id}`             | Update a record        |
+| Delete    | DELETE      | `/items/{id}`             | Delete a record by ID  |
 
-Returns a list of all stored orders.
+> CRUD operations can be tested in the **web interface (Thymeleaf)** or using **Postman**.
 
-Rendered using Thymeleaf templates or Postman.
+---
 
-✏️ Update
-Implemented with a PUT request.
+## 🧩 H2 Database
 
-Updates existing order details by ID.
+**H2** is an in-memory database, good for development and testing because it does not need installation.
 
-Validated and saved again to the database.
+### 🔗 Access H2 Console
 
-🗑️ Delete
-Implemented with a DELETE request.
+1. Run the project in `dev` or `test` profile.
+2. Open in browser:
 
-Removes an order by ID.
+   ```
+   http://localhost:8080/h2-console
+   ```
+3. Enter the details from `application-dev.properties` (e.g., `jdbc:h2:mem:testdb`).
 
-Confirms deletion through console logs or the frontend.
+> ⚠️ When the server stops, data is deleted automatically. This makes testing fast and clean.
 
-📋 How to Clone and Run
-1️⃣ Clone the repository
-bash
-Copy code
-git clone https://github.com/<your-username>/order-management-system.git
-2️⃣ Navigate to the project folder
-bash
-Copy code
-cd order-management-system
-3️⃣ Build the project
-bash
-Copy code
-mvn clean install
-4️⃣ Run the application
-bash
-Copy code
-mvn spring-boot:run
-Then open:
+---
 
-arduino
-Copy code
-http://localhost:8080
-📁 Folder Structure
-swift
-Copy code
-OrderManagementSystem/
-├── src/
-│   ├── main/
-│   │   ├── java/com/example/ordermanagement/
-│   │   │   ├── controller/
-│   │   │   ├── model/
-│   │   │   ├── repository/
-│   │   │   └── service/
-│   │   └── resources/
-│   │       ├── templates/
-│   │       ├── static/
-│   │       └── application.properties
-├── pom.xml
-└── README.md
-✅ What Was Implemented
-Sprint	User Stories Implemented	Duration
-Sprint 1	CRUD operations (Create, Read, Update, Delete) and H2 connection	3 days
-Sprint 2	Migration to MySQL, validations, and simple front-end	3 days
-Sprint 3	Documentation, deployment on GitHub, and project packaging	2 days
+## 🚀 What Was Implemented
 
-🧱 Future Improvements
-Add authentication and authorization.
+| Sprint | Goal                             | Deliverables                                                                       | Result                                  |
+| ------ | -------------------------------- | ---------------------------------------------------------------------------------- | --------------------------------------- |
+| 1      | Implement CRUD and H2 connection | Full CRUD, database connected                                                      | CRUD works correctly                    |
+| 2      | Configure environment profiles   | `application-dev/test/prod.properties`, tested in all environments, README updated | Connections tested, documentation ready |
 
-Migrate frontend to React or Angular.
+---
 
-Integrate Swagger documentation.
+## 🏁 Sprint 2 Delivery
 
-Deploy on a cloud service like AWS or Render.
+The project includes:
 
-👨‍💻 Author
-Diego González Miranda
+✅ CRUD tested and working
+✅ Separate connections per environment
+✅ H2 and MySQL correctly configured
+✅ Technical documentation and run steps
+✅ Code ready for GitHub or production deployment
+
+---
+
+## ✍️ Credits
+
+💻 **Developed by:** Diego González Miranda
+📄 **License:** Free to use
+🚀 **Version:** Sprint 2 - October 2025
