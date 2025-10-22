@@ -1,49 +1,57 @@
-# 🧩 Order Management System (CRUD with Spring Boot, H2 and MySQL)
+# 🧩 Order Management System (CRUD with Spring Boot, H2, and MySQL)
 
-This project is a **CRUD system (Create, Read, Update, Delete)** built with **Spring Boot**. It helps manage records in a relational database.
-It has different **environment profiles (development, testing, production)** and is **ready to scale and deploy**.
+This project is a CRUD system (Create, Read, Update, Delete) built with **Spring Boot**.  
+It manages records in a relational database and includes **three environment profiles**: development, testing, and production.  
+It also integrates **Swagger** for API documentation and **JUnit tests** for validation.
 
 ---
 
 ## 📚 Table of Contents
 
-* [🧠 General Description](#-general-description)
-* [⚙️ Technologies Used](#️-technologies-used)
-* [📦 Main Dependencies](#-main-dependencies)
-* [🧱 Project Structure](#-project-structure)
-* [🖥️ How to Clone](#️-how-to-clone)
-* [▶️ How to Run](#️-how-to-run)
-* [🌐 Environment Profiles (Sprint 2)](#-environment-profiles-sprint-2)
-* [⚡ CRUD Explanation](#-crud-explanation)
-* [🧩 H2 Database](#-h2-database)
-* [🖼️ Profile Screenshots](#-profile-screenshots)
-* [🚀 What Was Implemented](#-what-was-implemented)
-* [🏁 Sprint 2 Delivery](#-sprint-2-delivery)
-* [✍️ Credits](#-credits)
+- [🧠 General Description](#-general-description)
+- [⚙️ Technologies Used](#-technologies-used)
+- [📦 Main Dependencies](#-main-dependencies)
+- [🧱 Project Structure](#-project-structure)
+- [🖥️ How to Clone](#️-how-to-clone)
+- [▶️ How to Run](#️-how-to-run)
+- [🌐 Environment Profiles](#-environment-profiles)
+- [⚡ CRUD Explanation and Filters](#-crud-explanation-and-filters)
+- [🧩 H2 Database](#-h2-database)
+- [🧪 Unit Testing](#-unit-testing)
+- [🧭 Swagger Documentation](#-swagger-documentation)
+- [🖼️ Profile Screenshots](#-profile-screenshots)
+- [🚀 What Was Implemented](#-what-was-implemented)
+- [🏁 Sprint 3 Delivery](#-sprint-3-delivery)
+- [✍️ Credits](#-credits)
 
 ---
 
 ## 🧠 General Description
 
-This project is a web app built with **Spring Boot** that uses CRUD operations on a database.
-In **Sprint 1**, the CRUD structure and H2 database connection were created. In **Sprint 2**, environment profiles (**dev**, **test**, **prod**) were added.
+This web application was developed with **Spring Boot** and performs CRUD operations on a database.
 
-> 💡 The system helps manage records (like orders, products, or users) with a web interface and keeps data organized in different environments.
+- **Sprint 1:** Implemented CRUD and connected H2 database.
+- **Sprint 2:** Added environment profiles (dev, test, prod).
+- **Sprint 3:** Added Swagger documentation and unit tests.
+
+The system allows managing records (like orders, products, or users) and switching databases depending on the environment.
 
 ---
 
 ## ⚙️ Technologies Used
 
-| Type                  | Technology      |
-| --------------------- | --------------- |
-| Main language         | Java 17         |
-| Framework             | Spring Boot 3.x |
-| In-memory database    | H2              |
-| Persistent database   | MySQL           |
-| Front-end templates   | Thymeleaf       |
-| Dependency management | Maven           |
-| Development IDE       | IntelliJ IDEA   |
-| Version control       | Git / GitHub    |
+| Type | Technology |
+|------|-------------|
+| Language | Java 17 |
+| Framework | Spring Boot 3.x |
+| In-memory database | H2 |
+| Persistent database | MySQL |
+| Templates | Thymeleaf |
+| Documentation | Swagger (Springdoc OpenAPI) |
+| Testing | JUnit & Mockito |
+| Build tool | Maven |
+| IDE | IntelliJ IDEA |
+| Version control | Git / GitHub |
 
 ---
 
@@ -73,6 +81,16 @@ In **Sprint 1**, the CRUD structure and H2 database connection were created. In 
         <artifactId>mysql-connector-j</artifactId>
         <scope>runtime</scope>
     </dependency>
+    <dependency>
+        <groupId>org.springdoc</groupId>
+        <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+        <version>2.3.0</version>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-test</artifactId>
+        <scope>test</scope>
+    </dependency>
 </dependencies>
 ```
 
@@ -90,15 +108,19 @@ src/
  │   │   │   └── Item.java
  │   │   ├── repository/
  │   │   │   └── ItemRepository.java
- │   │   └── service/
- │   │       └── ItemService.java
+ │   │   ├── service/
+ │   │   │   └── ItemService.java
+ │   │   └── DemoApplication.java
  │   └── resources/
  │       ├── application.properties
  │       ├── application-dev.properties
  │       ├── application-test.properties
  │       └── application-prod.properties
  └── test/
-     └── ItemControllerTest.java
+     ├── controller/
+     │   └── ItemControllerTest.java
+     └── service/
+         └── ItemServiceTest.java
 ```
 
 ---
@@ -106,132 +128,151 @@ src/
 ## 🖥️ How to Clone
 
 ```bash
-git clone https://github.com/tuusuario/nombre-del-proyecto.git
-cd nombre-del-proyecto
+git clone https://github.com/yourusername/order-management-system.git
+cd order-management-system
 ```
 
 ---
 
 ## ▶️ How to Run
 
-### 🔧 Run in development mode (default)
-
+### Development mode (default)
 ```bash
 mvn spring-boot:run
 ```
 
-### 🚀 Run in production mode
-
+### Production mode
 ```bash
 mvn spring-boot:run -Dspring-boot.run.profiles=prod
 ```
 
+### Run tests
+```bash
+mvn test
+```
+
 ---
 
-## 🌐 Environment Profiles (Sprint 2)
+## 🌐 Environment Profiles
 
-The project has **three environment profiles**:
+| Profile | File | Database | Purpose |
+|----------|------|-----------|----------|
+| dev | application-dev.properties | H2 | Local development |
+| test | application-test.properties | H2 | Unit testing |
+| prod | application-prod.properties | MySQL | Production |
 
-| Profile | File                          | Database | Use               |
-| ------- | ----------------------------- | -------- | ----------------- |
-| dev     | `application-dev.properties`  | H2       | Local development |
-| test    | `application-test.properties` | H2       | Automated tests   |
-| prod    | `application-prod.properties` | MySQL    | Real production   |
-
-### 🔁 How to change the profile
-
-Edit this line in `application.properties`:
-
+### Change active profile
+Edit in `application.properties`:
 ```properties
 spring.profiles.active=prod
 ```
-
-Or run from console:
-
+or run with:
 ```bash
 mvn spring-boot:run -Dspring-boot.run.profiles=test
 ```
 
-Spring Boot will show the active profile in console:
-
-```
-The following profiles are active: prod
-```
-
 ---
 
-## ⚡ CRUD Explanation
+## ⚡ CRUD Explanation and Filters
 
-| Operation | HTTP Method | Endpoint                  | Description            |
-| --------- | ----------- | ------------------------- | ---------------------- |
-| Create    | POST        | `/items`                  | Add a new record       |
-| Read      | GET         | `/items` or `/items/{id}` | Show all or one record |
-| Update    | PUT         | `/items/{id}`             | Update a record        |
-| Delete    | DELETE      | `/items/{id}`             | Delete a record by ID  |
+| Operation | HTTP Method | Endpoint | Description |
+|------------|--------------|-----------|--------------|
+| Create | POST | /items | Add a new record |
+| Read | GET | /items | Get all records |
+| Read by ID | GET | /items/{id} | Get record filtered by ID |
+| Update | PUT | /items/{id} | Update a record |
+| Delete | DELETE | /items/{id} | Delete record by ID |
 
-### ⚡ CRUD Testing
-
-All endpoints have been tested locally using Postman and the browser. Swagger documentation will be added in **Sprint 3**.
+All endpoints are functional and include **ID filters**.
 
 ---
 
 ## 🧩 H2 Database
 
-**H2** is an in-memory database, good for development and testing because it does not need installation.
+H2 is an in-memory database used for development and testing — no installation required.
 
-### 🔗 Access H2 Console
+Access the console:
+```
+http://localhost:8080/h2-console
+```
 
-1. Run the project in `dev` or `test` profile.
-2. Open in browser:
+Use connection details from your active profile, for example:
+```
+jdbc:h2:mem:testdb
+```
 
-   ```
-   http://localhost:8080/h2-console
-   ```
-3. Enter the details from `application-dev.properties` (e.g., `jdbc:h2:mem:testdb`).
+⚠️ When the server stops, data is deleted automatically. This makes testing fast and clean.
 
-> ⚠️ When the server stops, data is deleted automatically. This makes testing fast and clean.
+---
+
+## 🧪 Unit Testing
+
+Unit tests are implemented with **JUnit** and **Mockito**.  
+They validate:
+- Service layer CRUD logic
+- Controller endpoints with mock requests
+
+To run all tests:
+```bash
+mvn test
+```
+
+![Unit Tests](Screenshots/UT.png)
+
+The **test profile (H2)** is automatically used during testing.
+
+---
+
+## 🧭 Swagger Documentation
+
+Swagger UI is integrated using **Springdoc OpenAPI**.  
+Access it at:
+```
+http://localhost:8080/swagger-ui.html
+```
+
+![Swagger Example](Screenshots/swagger.png)
+
+You can visualize and test all endpoints directly from the browser.
 
 ---
 
 ## 🖼️ Profile Screenshots
 
-### Development (H2)
-
+**Development (H2)**  
 ![Development Profile](Screenshots/BDD-dev.png)
 
-### Testing (H2)
-
+**Testing (H2)**  
 ![Testing Profile](Screenshots/BDD-test.png)
 
-### Production (MySQL)
-
+**Production (MySQL)**  
 ![Production Profile](Screenshots/BDD-prod.png)
 
 ---
 
 ## 🚀 What Was Implemented
 
-| Sprint | Goal                             | Deliverables                                                                       | Result                                  |
-| ------ | -------------------------------- | ---------------------------------------------------------------------------------- | --------------------------------------- |
-| 1      | Implement CRUD and H2 connection | Full CRUD, database connected                                                      | CRUD works correctly                    |
-| 2      | Configure environment profiles   | `application-dev/test/prod.properties`, tested in all environments, README updated | Connections tested, documentation ready |
+| Sprint | Goal | Deliverables | Result |
+|--------|------|---------------|---------|
+| 1 | CRUD and H2 connection | CRUD + H2 database | ✅ Completed |
+| 2 | Environment profiles | Dev, Test, Prod profiles | ✅ Completed |
+| 3 | Swagger + Unit Tests | Documentation + Tests + README update | ✅ Completed |
 
 ---
 
-## 🏁 Sprint 2 Delivery
+## 🏁 Sprint 3 Delivery
 
-The project includes:
-
-✅ CRUD tested and working
-✅ Separate connections per environment
-✅ H2 and MySQL correctly configured
-✅ Technical documentation and run steps
-✅ Code ready for GitHub or production deployment
+✅ Functional CRUD with ID filters  
+✅ Three environment profiles (dev, test, prod)  
+✅ Databases: H2 (dev/test) and MySQL (prod)  
+✅ Unit tests for controller and service layers  
+✅ Swagger API documentation integrated  
+✅ Full technical documentation
 
 ---
 
 ## ✍️ Credits
 
-💻 **Developed by:** Diego González Miranda
-📄 **License:** Free to use
-🚀 **Version:** Sprint 2 - October 2025
+**Developed by:** Diego González Miranda  
+**License:** Free to use  
+**Version:** Sprint 3 – October 2025
