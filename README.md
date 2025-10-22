@@ -231,7 +231,7 @@ Access it at:
 http://localhost:8080/swagger-ui.html
 ```
 
-![Swagger Example](Screenshots/swagger.png)
+![Swagger Example](Screenshots/Swagger.png)
 
 You can visualize and test all endpoints directly from the browser.
 
